@@ -1,7 +1,20 @@
+import AppKit
 import SwiftUI
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            if let window = sender.windows.first(where: { $0.canBecomeMain }) {
+                window.makeKeyAndOrderFront(nil)
+            }
+        }
+        return true
+    }
+}
 
 @main
 struct LonghandApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var workspace = Workspace()
 
     init() {

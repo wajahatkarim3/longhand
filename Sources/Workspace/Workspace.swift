@@ -46,6 +46,11 @@ final class Workspace: ObservableObject {
         ) { [weak self] _ in
             MainActor.assumeIsolated { self?.document?.save() }
         }
+        NotificationCenter.default.addObserver(
+            forName: NSWindow.willCloseNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.document?.save() }
+        }
     }
 
     var allFiles: [FileNode] { tree.flatMap(\.allFiles) }
